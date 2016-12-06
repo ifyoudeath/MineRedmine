@@ -37,13 +37,13 @@ public class DefaultClient {
         });
     }
 
-    public static <T extends BaseService> T execute(T service) {
+    public static <T extends BaseService> T execute(Class<T> service) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(service.getUrl())
+                .baseUrl(BaseService.BASE_URL)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
-        return (T) retrofit.create(service.getClass());
+        return retrofit.create(service);
     }
 }

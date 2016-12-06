@@ -9,5 +9,5 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public interface BaseService {
-    String getUrl();
+    String BASE_URL = "http://redmine.howzhi.net:8080/";
 }

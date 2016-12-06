@@ -1,18 +1,23 @@
 package com.howzhi.myredmine.network.service;
 
 import com.howzhi.myredmine.network.base.BaseService;
+import com.howzhi.myredmine.network.entity.User;
+
+import retrofit2.http.GET;
+import retrofit2.http.Query;
+import rx.Observable;
 
 /**
  * Created by Zhang on 2016/12/6.
  */
 
-public abstract class UserService implements BaseService {
-    public static final String BASE_URL = "http://redmine.howzhi.net:8080/users/";
+public interface UserService extends BaseService {
 
-    @Override
-    public String getUrl() {
-        return BASE_URL;
-    }
+    @GET("users/current.json")
+    Observable<User> login(@Query("username") String username
+            , @Query("password") String password);
 
+    @GET("users/3.json")
+    Observable<User> info();
 
 }
