@@ -1,7 +1,5 @@
 package com.howzhi.myredmine.network;
 
-import com.howzhi.myredmine.network.base.BaseService;
-
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -19,28 +17,28 @@ import rx.Observable;
 
 public class DefaultClient {
 
-    private Retrofit mRetrofit;
-    private static OkHttpClient okHttpClient;
+    public static final String BASE_URL = "http://redmine.howzhi.net:8080/";
 
-    static {
-        okHttpClient = new OkHttpClient();
-        okHttpClient.interceptors().add(new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                Request request = chain.request();
-                Request.Builder builder = request.newBuilder();
-                /**
-                 *  Todo builder.addHeader();
-                 */
-                return chain.proceed(builder.build());
-            }
-        });
+    private static OkHttpClient getHeader() {
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Request request = chain.request();
+                        Request.Builder builder = request.newBuilder();
+                        /**
+                         *  Todo builder.addHeader();
+                         */
+                        return chain.proceed(builder.build());
+                    }
+                }).build();
+        return okHttpClient;
     }
 
-    public static <T extends BaseService> T execute(Class<T> service) {
+    public static <T> T execute(Class<T> service) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BaseService.BASE_URL)
-                .client(okHttpClient)
+                .baseUrl(BASE_URL)
+                .client(getHeader())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();

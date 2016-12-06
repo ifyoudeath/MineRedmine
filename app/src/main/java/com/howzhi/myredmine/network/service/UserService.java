@@ -1,6 +1,5 @@
 package com.howzhi.myredmine.network.service;
 
-import com.howzhi.myredmine.network.base.BaseService;
 import com.howzhi.myredmine.network.entity.User;
 
 import retrofit2.http.GET;
@@ -11,7 +10,7 @@ import rx.Observable;
  * Created by Zhang on 2016/12/6.
  */
 
-public interface UserService extends BaseService {
+public interface UserService{
 
     @GET("users/current.json")
     Observable<User> login(@Query("username") String username
